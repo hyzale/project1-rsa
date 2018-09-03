@@ -5,12 +5,8 @@
 
  
  ull power(ull base, ull exponent) {
-    if (exponent == 0) {
-        return 1;
-    }
-    else if (exponent == 1) {
-        return base;
-    }
+    if (exponent == 0) return 1;
+    if (exponent == 1) return base;
     ull result = power(base, exponent / 2);
     return (exponent % 2 == 0) ? result * result : result * result * base; 
  }
