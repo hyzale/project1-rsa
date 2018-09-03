@@ -9,7 +9,7 @@
     }
     ull result = modpower(base, exponent / 2, modulus);
     result = (result % modulus * result % modulus) % modulus;
-    return (exponent % 2 == 0) ? result : (base % modulus * result % modulus ) % modulus;
+    return (exponent % 2 == 0) ? result : (base * result) % modulus;
  }
 
  int main() {
