@@ -2,21 +2,14 @@
  #include <iostream>
  using namespace std;
  typedef unsigned long long ull;
-
  
- ull power(ull base, ull exponent) {
-    if (exponent == 0) {
-        return 1;
-    }
-    else if (exponent == 1) {
-        return base;
-    }
-    ull result = power(base, exponent / 2);
-    return (exponent % 2 == 0) ? result * result : result * result * base; 
- }
-
  ull modpower(ull base, ull exponent, ull modulus) {
-    return power(base, exponent) % modulus;
+    if (exponent == 0) {
+        return 1 % modulus;
+    }
+    ull result = modpower(base, exponent / 2, modulus);
+    result = (result * result) % modulus;
+    return (exponent % 2 == 0) ? result : (base * result) % modulus;
  }
 
  int main() {
