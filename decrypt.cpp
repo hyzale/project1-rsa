@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include "numberTheory.hpp"
@@ -6,15 +7,20 @@ typedef unsigned long long ull;
  
 
  int main(int argc, char *argv[]) {
+    
     if (argc != 4) {
         cout << "Wrong Number of Command Line Arguments Passed";
         return 0;
     }    
-    ull d; ull n; int y;
+    
     ifstream decryptFile(argv[1]);
+    ull d; ull n;
+    decryptFile >> d >> n;
+    
     ifstream fin(argv[2]);
     ofstream fout(argv[3]);
-    decryptFile >> d >> n;
+    int y;
+    
     fin >> y;
     while(!fin.eof()){
         fout << (char) modpower(y, d, n);

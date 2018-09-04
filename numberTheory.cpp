@@ -1,3 +1,4 @@
+
 typedef unsigned long long ull; 
  
  ull modpower(ull base, ull exponent, ull modulus) {
