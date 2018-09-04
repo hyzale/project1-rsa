@@ -11,11 +11,15 @@ typedef unsigned long long ull;
     return (exponent % 2 == 0) ? result : (base * result) % modulus;
  }
 
- int main() {
+ int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        cout << "Wrong Number of Command Line Arguments Passed";
+        return 0;
+    }
     ull e; ull n; char x;
-    ifstream encryptFile("public.txt");
-    ifstream fin("plaintext.txt");
-    ofstream fout("encrpyted.txt");
+    ifstream encryptFile(argv[1]);
+    ifstream fin(argv[2]);
+    ofstream fout(argv[3]);
     encryptFile >> e >> n;
     while(fin.get(x)){
         fout << modpower(x, e, n) << endl;
