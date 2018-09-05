@@ -15,8 +15,10 @@ numberTheory_TEST: numberTheory_TEST.cpp catch.hpp
 
 tests: numberTheory_TEST
 
-testgcov: numberTheory_TEST
+testgcov: tests
 	g++ --coverage -o numberTheory_TEST numberTheory_TEST.cpp numberTheory.cpp
+	./numberTheory_TEST
+	gcov numberTheory.cpp
 
 testlcov: testgcov
 	lcov --directory ./ --zerocounters
@@ -25,4 +27,4 @@ testlcov: testgcov
 	genhtml --output-directory coverage numberTheory_TEST.info
 
 clean:
-	rm -R *.o *.gcda *.info *.gcno encrypt decrypt numberTheory_TEST coverage
+	rm -R *.o *.gcda *.info *.gcno *.gcov encrypt decrypt numberTheory_TEST coverage a.out

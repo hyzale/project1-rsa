@@ -19,3 +19,9 @@ bool isPrime(ull num) {
     }
     return true;
 }
+
+ull extendEuclid(ull a, ull b, long long* px, long long* py){
+    return 0;
+}
+
+

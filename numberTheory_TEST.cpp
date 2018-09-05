@@ -13,3 +13,12 @@ TEST_CASE ("Testing modpower") {
     REQUIRE( modpower(12345, 1234567, 123456789) == 100842075 );
     REQUIRE( modpower(12345, 123456789, 12345) == 0);
 }
+
+TEST_CASE ("Testing isPrime") {
+    REQUIRE( isPrime(0) == false );
+    REQUIRE( isPrime(1) == false );
+    REQUIRE( isPrime(25) == false );
+    REQUIRE( isPrime(997) == true );
+    REQUIRE( isPrime(2) == true );
+    REQUIRE( isPrime(719) == true );
+}
