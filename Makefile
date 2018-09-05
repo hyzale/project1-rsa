@@ -25,4 +25,4 @@ testlcov: numberTheory_TEST testgcov
 	genhtml --output-directory coverage numberTheory_TEST.info
 
 clean:
-	rm *.o *.gcda *.info *.gcno encrypt decrypt numberTheory_TEST
+	rm -R *.o *.gcda *.info *.gcno encrypt decrypt numberTheory_TEST coverage
