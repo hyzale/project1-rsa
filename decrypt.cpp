@@ -7,7 +7,7 @@ typedef unsigned long long ull;
  
 
  int main(int argc, char *argv[]) {
-    
+     
     if (argc != 4) {
         cout << "Wrong Number of Command Line Arguments Passed";
         return 0;
