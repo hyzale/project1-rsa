@@ -15,10 +15,10 @@ numberTheory_TEST: numberTheory_TEST.cpp catch.hpp
 
 tests: numberTheory_TEST
 
-testgcov: numberTheory_TEST.cpp numberTheory.cpp
+testgcov: numberTheory_TEST
 	g++ --coverage -o numberTheory_TEST numberTheory_TEST.cpp numberTheory.cpp
 
-testlcov: numberTheory_TEST testgcov
+testlcov: testgcov
 	lcov --directory ./ --zerocounters
 	./numberTheory_TEST
 	lcov --directory ./ --capture --output-file numberTheory_TEST.info
