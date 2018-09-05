@@ -18,10 +18,10 @@ tests: numberTheory_TEST
 testgcov: numberTheory_TEST.cpp numberTheory.cpp
 	g++ --coverage -o numberTheory_TEST numberTheory_TEST.cpp numberTheory.cpp
 
-testlcov: 
+testlcov: numberTheory_TEST testgcov
 	lcov --directory ./ --zerocounters
 	./numberTheory_TEST
-	lcov --directory ./ --capture --output-file absolute_TEST.info
+	lcov --directory ./ --capture --output-file numberTheory_TEST.info
 	genhtml --output-directory coverage numberTheory_TEST.info
 
 clean:
