@@ -6,4 +6,6 @@ typedef unsigned long long ull;
 
 ull modpower(ull base, ull exponent, ull modulus);
 
+bool isPrime(ull num);
+
  #endif
