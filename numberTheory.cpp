@@ -4,6 +4,7 @@
 
 using namespace std;
 typedef unsigned long long ull; 
+typedef long long ll;
  
  ull modpower(ull base, ull exponent, ull modulus) {
     if (exponent == 0) return 1;
@@ -20,8 +21,17 @@ bool isPrime(ull num) {
     return true;
 }
 
-ull extendEuclid(ull a, ull b, long long* px, long long* py){
-    return 0;
+ull extendEuclid(ull a, ull b, ll *x, ll *y){
+    if (b == 0) {
+        *x = 0;
+        *y = 1;
+        return a;
+    }
+    ll x1, y1;
+    ull d = extendEuclid(b, a%b, &x1, &y1);
+    *x = y1;
+    *y = x1 - y1 * a / b;
+    return d;
 }
 
 
