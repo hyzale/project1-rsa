@@ -21,16 +21,16 @@ bool isPrime(ull num) {
     return true;
 }
 
-ull extendEuclid(ull a, ull b, ll *x, ll *y){
+ull extendEuclid(ull a, ull b, ll* px, ll* py){
     if (b == 0) {
-        *x = 0;
-        *y = 1;
+        px = 0;
+        py = 1;
         return a;
     }
     ll x1, y1;
-    ull d = extendEuclid(b, a%b, &x1, &y1);
-    *x = y1;
-    *y = x1 - y1 * a / b;
+    ull d = extendEuclid(b, a % b, &x1, &y1);
+    px = y1;
+    py = x1 - y1 * a / b;
     return d;
 }
 
