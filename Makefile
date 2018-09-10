@@ -11,7 +11,7 @@ decrypt: decrypt.cpp numberTheory.o
 all: encrypt decrypt
 
 numberTheory_TEST: numberTheory_TEST.cpp numberTheory.o catch.hpp
-	g++ -o numberTheory_TEST numberTheory_Test.cpp numberTheory.cpp
+	g++ -o numberTheory_TEST numberTheory_TEST.cpp numberTheory.cpp
 
 tests: numberTheory_TEST
 
