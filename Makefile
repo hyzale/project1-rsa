@@ -8,6 +8,9 @@ encrypt: encrypt.cpp numberTheory.o
 decrypt: decrypt.cpp numberTheory.o
 	g++ -o decrypt decrypt.cpp numberTheory.o
 
+keygen: keygen.cpp numberTheory.o
+	g++ -o keygen keygen.cpp numberTheory.o
+
 all: encrypt decrypt
 
 numberTheory_TEST: numberTheory_TEST.cpp numberTheory.o catch.hpp
@@ -27,4 +30,4 @@ testlcov: testgcov
 	genhtml --output-directory coverage numberTheory_TEST.info
 
 clean:
-	rm -R *.o *.gcda *.info *.gcno *.gcov encrypt decrypt numberTheory_TEST coverage a.out
+	rm -R *.o *.gcda *.info *.gcno *.gcov encrypt decrypt numberTheory_TEST keygen coverage a.out
