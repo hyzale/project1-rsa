@@ -24,7 +24,7 @@ bool isPrime(ull num) {
 }
 
 
-ull extendEuclid(ull a, ull b, ll* px, ll* py){
+ull extendEuclid(ull a, ull b, ll* px, ll* py) {
 
     if (b == 0) {
         *px = 1; *py = 0; return a;

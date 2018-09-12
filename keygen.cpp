@@ -9,7 +9,7 @@ typedef long long ll;
 
 using namespace std;
 
-int main (int argc, char *argv[]){
+int main (int argc, char *argv[]) {
     
     if (argc != 5) {
         cout << "Wrong Number of Command Line Arguments Passed.";
@@ -25,6 +25,11 @@ int main (int argc, char *argv[]){
     }
     
     ull n = p * q;
+    
+    if (n <= 256) {
+        cout << "Warning: generated key cannot encrtpt ASCII values" << endl;
+    }
+
     ull t = (p - 1) * (q - 1);
     ull e = 2; ll x; ll y; ll d;
 
