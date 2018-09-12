@@ -5,10 +5,12 @@
 using namespace std;
 typedef unsigned long long ull; 
 typedef long long ll;
- 
- ull modpower(ull base, ull exponent, ull modulus) {
+  
+ll x; ll y; 
+
+ ull modPower(ull base, ull exponent, ull modulus) {
     if (exponent == 0) return 1;
-    ull result = modpower(base, exponent / 2, modulus);
+    ull result = modPower(base, exponent / 2, modulus);
     result = (result * result) % modulus;
     return (exponent % 2 == 0) ? result : (base * result) % modulus;
  }
@@ -21,17 +23,19 @@ bool isPrime(ull num) {
     return true;
 }
 
-ull extendEuclid(ull a, ull b, ll* px, ll* py){
+
+ull extendEuclid(ull a, ull b, ll* px, ll* py) {
+
     if (b == 0) {
-        px = 0;
-        py = 1;
-        return a;
+        *px = 1; *py = 0; return a;
     }
     ll x1, y1;
     ull d = extendEuclid(b, a % b, &x1, &y1);
-    px = y1;
-    py = x1 - y1 * a / b;
+    *px = y1;
+    *py = x1 - y1 * (a / b);    
+
     return d;
+
 }
 
 
