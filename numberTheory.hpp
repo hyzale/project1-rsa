@@ -6,11 +6,11 @@ typedef unsigned long long ull;
 typedef long long ll;
 
 
-ull modpower(ull base, ull exponent, ull modulus);
+ull modPower(ull base, ull exponent, ull modulus);
 
 bool isPrime(ull num);
 
-ull extendEuclid(ull a, ull b, ll *x, ll *y);
+ull extendEuclid(ull a, ull b, ll* px, ll* py);
 
 
 #endif
