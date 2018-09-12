@@ -16,8 +16,8 @@ int main (int argc, char *argv[]) {
         return 0;
     }
 
-    ll p = atoi(argv[1]);
-    ll q = atoi(argv[2]);
+    ll p = atoll(argv[1]);
+    ll q = atoll(argv[2]);
 
     if (!isPrime(p) || !isPrime(q)) { 
         cout << "The provided numbers are not all prime.";
