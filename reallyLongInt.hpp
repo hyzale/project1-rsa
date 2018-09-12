@@ -1,5 +1,5 @@
-#ifndef modpower_h
-#define modpower_h
+#ifndef rlIntRemoveLeadingZeros_h
+#define rlIntRemoveLeadingZeros_h
 using namespace std;
 
 void rlIntRemoveLeadingZeros(unsigned* x, unsigned& xSize);

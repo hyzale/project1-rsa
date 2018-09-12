@@ -23,7 +23,7 @@ typedef unsigned long long ull;
     
     fin >> y;
     while(!fin.eof()){
-        fout << (char) modpower(y, d, n);
+        fout << (char) modPower(y, d, n);
         fin >> y;
     }
  }

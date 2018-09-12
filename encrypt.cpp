@@ -21,6 +21,6 @@ typedef unsigned long long ull;
     char x; //x is the character to be encrypted
     
     while(fin.get(x)){
-        fout << modpower(x, e, n) << endl;
+        fout << modPower(x, e, n) << endl;
     } 
  }
