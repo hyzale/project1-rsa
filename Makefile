@@ -9,7 +9,7 @@ decrypt: decrypt.cpp numberTheory.o
 	g++ -o decrypt decrypt.cpp numberTheory.o
 
 keygen: keygen.cpp numberTheory.o
-	g++ -o keygen keygen.cpp numberTheory.o
+	g++ -g -o keygen keygen.cpp numberTheory.o
 
 reallyLongInt.o: reallyLongInt.hpp reallyLongInt.hpp
 	g++ -c reallyLongInt.cpp
