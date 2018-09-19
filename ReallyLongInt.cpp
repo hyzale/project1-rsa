@@ -85,14 +85,38 @@ string ReallyLongInt::toString() const {
 
 //Constructor from numbers
 ReallyLongInt::ReallyLongInt(long long num) {
-
+    if (num == 0) {ReallyLongInt();}
+    if (num > 0) {isNeg = false;}    
+    if (num < 0) {isNeg = true; num = -num;}
+    numDigits = log10(num) + 1;
+    unsigned* numArr = new unsigned[numDigits];
+    
+    for (int i = numDigits - 1; i >= 0; i--) {
+        numArr[i] = num % 10;
+        num /= 10;        
+    }
+    digits = numArr;
 }
 
 //Copy Constructor
 
 ReallyLongInt::ReallyLongInt(const ReallyLongInt& other) {
+    numDigits == other.numDigits;
+    unsigned* numArr = new unsigned[numDigits];
     
 }
+
+//Private Constructor
+ReallyLongInt::ReallyLongInt(unsigned* digitsArr, unsigned arrSize, bool isNeg) {
+    removeLeadingZeros(digitsArr, arrSize);
+    digits = digitsArr;
+    numDigits = arrSize;
+    isNeg = isNeg;
+    if (digits[0] == 0) {isNeg = false;}
+}
+
+
+
 
 
 /*--------------------------
@@ -110,7 +134,7 @@ bool ReallyLongInt::getIsNeg() {
 
 int main(int argc, char const *argv[])
 {
-    ReallyLongInt* a = new ReallyLongInt("002001");
+    ReallyLongInt* a = new ReallyLongInt(-2001);
     cout << a->toString() << endl;
     cout << a->getNumDigits() << endl;
     cout << a->getIsNeg() << endl;
