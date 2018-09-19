@@ -24,6 +24,8 @@ public:
     string toString() const;
     ReallyLongInt(long long num);
     ReallyLongInt(const ReallyLongInt& other);
+    ReallyLongInt absAdd(const ReallyLongInt& other) const;
+    ReallyLongInt absSub(const ReallyLongInt& other) const;
 
 
 /*--------Test Method--------*/
