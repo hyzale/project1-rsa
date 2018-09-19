@@ -26,15 +26,32 @@ string rlIntToString(const unsigned* x, unsigned xSize) {
 }
 
 void rlIntRemoveLeadingZeros(unsigned* x, unsigned& xSize) {
-
-    if (x[0] == 0) {
-        for (int i = 0; i < xSize - 1; i++) {
-            x[i] = x[i + 1];
+    int count = -1;
+    for (int i = 0; i < xSize; i++) {
+        if (x[i] != 0) {
+            count = i;
+            break;
         }
-        xSize --;
-        rlIntRemoveLeadingZeros(x, xSize);
-
     }
+   
+    if (count == -1) {
+        xSize = 1;
+        x[0] = 0;
+    } else {
+        for (int i = 0; i < xSize - count; i++) {
+            x[i] = x[count + i];
+        }
+        xSize -= count;
+    }
+
+    // if (x[0] == 0 && xSize != 1) {
+    //     for (int i = 0; i < xSize - 1; i++) {
+    //         x[i] = x[i + 1];
+    //     }
+    //     xSize --;
+    //     rlIntRemoveLeadingZeros(x, xSize);
+
+    // }
 
 }
 
@@ -70,3 +87,12 @@ bool rlIntGreater(const unsigned* x, unsigned xSize, const unsigned* y, unsigned
     
     return false; 
 }
+/*
+int main(int argc, char const *argv[])
+{
+    unsigned xSize;
+    unsigned* a = rlIntMake("000000000", xSize);
+    cout << a[0] << endl;
+    cout << xSize << endl;
+}
+*/

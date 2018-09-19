@@ -1,5 +1,6 @@
 #ifndef rlIntRemoveLeadingZeros_h
 #define rlIntRemoveLeadingZeros_h
+#include <string>
 using namespace std;
 
 void rlIntRemoveLeadingZeros(unsigned* x, unsigned& xSize);
