@@ -9,8 +9,10 @@ using namespace std;
 //Defult Constructor to represent 0
 ReallyLongInt::ReallyLongInt() {
     isNeg = false;
-    digits = 0;
     numDigits = 1;
+    unsigned* numArr = new unsigned[1];
+    numArr[0] = 0;
+    digits = numArr;
 }
 
 
@@ -27,6 +29,7 @@ void ReallyLongInt::removeLeadingZeros(unsigned* x, unsigned& xSize) const {
     if (count == -1) {
         xSize = 1;
         x[0] = 0;
+
     } else {
         for (int i = 0; i < xSize - count; i++) {
             x[i] = x[count + i];
@@ -83,45 +86,130 @@ string ReallyLongInt::toString() const {
     return numStr;
 }
 
+
 //Constructor from numbers
 ReallyLongInt::ReallyLongInt(long long num) {
-    if (num == 0) {ReallyLongInt();}
-    if (num > 0) {isNeg = false;}    
-    if (num < 0) {isNeg = true; num = -num;}
-    numDigits = log10(num) + 1;
-    unsigned* numArr = new unsigned[numDigits];
-    
-    for (int i = numDigits - 1; i >= 0; i--) {
-        numArr[i] = num % 10;
-        num /= 10;        
+    if (num == 0) {
+        isNeg = false;
+        numDigits = 1;
+        unsigned* numArr = new unsigned[1];
+        numArr[0] = 0;
+        digits = numArr;
+    } else {
+        if (num > 0) {isNeg = false;}    
+        if (num < 0) {isNeg = true; num = -num;}
+        
+        numDigits = log10(num) + 1;
+        unsigned* numArr = new unsigned[numDigits];
+        
+        for (int i = numDigits - 1; i >= 0; i--) {
+            numArr[i] = num % 10;
+            num /= 10;        
+        }
+        digits = numArr;
+
     }
-    digits = numArr;
 }
 
 //Copy Constructor
-
 ReallyLongInt::ReallyLongInt(const ReallyLongInt& other) {
-    numDigits == other.numDigits;
-    unsigned* numArr = new unsigned[numDigits];
-    
+    this->numDigits = other.numDigits;
+    this->isNeg = other.isNeg;
+    unsigned* deepCopy = new unsigned[numDigits];
+    for (int i = 0; i < numDigits; i++) {
+        deepCopy[i] = other.digits[i];
+    }
+    digits = deepCopy;
+    //memcpy()
+
 }
 
 //Private Constructor
 ReallyLongInt::ReallyLongInt(unsigned* digitsArr, unsigned arrSize, bool isNeg) {
     removeLeadingZeros(digitsArr, arrSize);
-    digits = digitsArr;
-    numDigits = arrSize;
-    isNeg = isNeg;
-    if (digits[0] == 0) {isNeg = false;}
+    this->digits = digitsArr;
+    this->numDigits = arrSize;
+    this->isNeg = isNeg;
+    if (digits[0] == 0) {this->isNeg = false;}
 }
 
+//Comparison operators
+bool ReallyLongInt::equal(const ReallyLongInt& other) const{
+    if (numDigits != other.numDigits || isNeg != other.isNeg) {
+        return false;
+    }
+    for (int i = 0; i < numDigits; i++) {
+        if (digits[i] != other.digits[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool ReallyLongInt::absGreater(const ReallyLongInt& other) const {
+    if (numDigits > other.numDigits) {
+        return true;
+    } 
+
+    if (numDigits < other.numDigits) {
+        return false;
+    }
+    
+    for (int i = 0; i < numDigits; i++) {
+        if (digits[i] > other.digits[i]) {
+            return true;
+        }
+    }
+    return false;   
+}
+
+bool ReallyLongInt::greater(const ReallyLongInt& other) const {
+    return (isNeg == other.isNeg) ? absGreater(other) : (isNeg == true) ? false : true; 
+}
+
+
+//Unsigned Addition
+ReallyLongInt ReallyLongInt::absAdd(const ReallyLongInt& other) const {
+    unsigned carry = 0;
+    unsigned maxLen = numDigits;
+    if (other.numDigits > maxLen) {
+        maxLen = other.numDigits;
+    }
+    unsigned* resDigits = new unsigned[maxLen + 1];
+    for (int i = maxLen - 1; i >= 0; i--) {
+        resDigits[i + 1] = (i < numDigits) ? digits[i] : 0;
+        resDigits[i + 1] += (i < other.numDigits) ? other.digits[i] : 0;
+        resDigits[i + 1] += carry;
+        carry = resDigits[i + 1] / 10;
+        resDigits[i + 1] = resDigits[i + 1] % 10;
+    }
+    resDigits[0] = carry;
+    if (carry == 0) {
+        unsigned* resDigitsCut = new unsigned[maxLen];
+        for (int i = maxLen - 1; i >= 0; i--) {
+            resDigitsCut[i] = resDigits[i + 1];
+        }
+        delete[] resDigits;
+        return ReallyLongInt(resDigitsCut, maxLen, false);
+    } else {
+        return ReallyLongInt(resDigits, maxLen + 1, false);
+    }
+}
+
+//Unsigned Subtraction
 
 
 
 
 /*--------------------------
 ----------Test Area---------
----------------------------*/
+---------------------------
+//Overloading output stream
+//ref: https://msdn.microsoft.com/en-us/library/1z2f6c2k.aspx
+ostream& operator<<(ostream& os, const ReallyLongInt& i) {  
+    os << i.toString();  
+    return os;  
+}  
 
 
 unsigned ReallyLongInt::getNumDigits() {
@@ -139,4 +227,12 @@ int main(int argc, char const *argv[])
     cout << a->getNumDigits() << endl;
     cout << a->getIsNeg() << endl;
 
-}
+    ReallyLongInt* d = new ReallyLongInt("002001");
+
+
+    ReallyLongInt b = ReallyLongInt("99");
+    ReallyLongInt c = ReallyLongInt("99");
+    ReallyLongInt d = b.absAdd(c);
+    cout << d;
+
+}*/
