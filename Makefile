@@ -1,3 +1,4 @@
+default: all
 
 numberTheory.o: numberTheory.hpp numberTheory.cpp
 	g++ -c numberTheory.cpp
@@ -14,7 +15,7 @@ keygen: keygen.cpp numberTheory.o
 reallyLongInt.o: reallyLongInt.hpp reallyLongInt.hpp
 	g++ -c reallyLongInt.cpp
 
-all: encrypt decrypt keygen
+all: encrypt decrypt keygen reallyLongInt.o
 
 reallyLongInt_TEST: reallyLongInt_TEST.cpp reallyLongInt.o catch.hpp
 	g++ -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp
