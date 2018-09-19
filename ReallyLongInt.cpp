@@ -83,6 +83,13 @@ string ReallyLongInt::toString() const {
     return numStr;
 }
 
+//overloading output stream
+// ref: https://msdn.microsoft.com/en-us/library/1z2f6c2k.aspx
+ostream& operator<<(ostream& os, const ReallyLongInt& i) {  
+    os << i.toString();  
+    return os;  
+}  
+
 //Constructor from numbers
 ReallyLongInt::ReallyLongInt(long long num) {
 
@@ -94,6 +101,57 @@ ReallyLongInt::ReallyLongInt(const ReallyLongInt& other) {
     
 }
 
+//Private Constructor
+
+ReallyLongInt::ReallyLongInt(unsigned* digitsArr, unsigned arrSize, bool isNeg) {
+    this->digits = digitsArr;
+    this->numDigits = arrSize;
+    this->isNeg = isNeg;
+}
+
+ReallyLongInt ReallyLongInt::absAdd(const ReallyLongInt& other) const {
+    unsigned carry = 0;
+    unsigned maxLen = numDigits;
+    if (other.numDigits > maxLen) {
+        maxLen = other.numDigits;
+    }
+    unsigned * res_digits = new unsigned[maxLen + 1];
+    // +1 for possible inc
+    for (int i = maxLen - 1; i >= 0; i--) {
+        res_digits[i + 1] = digits[i] + other.digits[i] + carry;
+        carry = res_digits[i + 1] / 10;
+        res_digits[i + 1] = res_digits[i + 1] % 10;
+    }
+    res_digits[0] = carry;
+    if (carry == 0) {
+        unsigned * res_digits_cut = new unsigned[maxLen];
+        for (int i = maxLen - 1; i >= 0; i--) {
+            res_digits_cut[i] = res_digits[i + 1];
+        }
+        delete[] res_digits;
+        return ReallyLongInt(res_digits_cut, maxLen, false);
+    } else {
+        return ReallyLongInt(res_digits, maxLen + 1, false);
+    }
+}
+
+
+
+ReallyLongInt ReallyLongInt::absAdd(const ReallyLongInt& other) const {
+    unsigned carry = 0;
+    unsigned maxLen = numDigits;
+    if (other.numDigits > maxLen) {
+        maxLen = other.numDigits;
+    }
+    unsigned * res_digits = new unsigned[maxLen + 1];
+    // +1 for possible inc
+    for (int i = maxLen - 1; i >= 0; i--) {
+        res_digits[i + 1] = digits[i] + other.digits[i] + carry;
+        carry = res_digits[i + 1] / 10;
+        res_digits[i + 1] = res_digits[i + 1] % 10;
+    }
+    res_digits[0] = carry;
+}
 
 /*--------------------------
 ----------Test Area---------
@@ -111,8 +169,11 @@ bool ReallyLongInt::getIsNeg() {
 int main(int argc, char const *argv[])
 {
     ReallyLongInt* a = new ReallyLongInt("002001");
-    cout << a->toString() << endl;
-    cout << a->getNumDigits() << endl;
-    cout << a->getIsNeg() << endl;
+
+
+    ReallyLongInt b = ReallyLongInt("99");
+    ReallyLongInt c = ReallyLongInt("99");
+    ReallyLongInt d = b.absAdd(c);
+    cout << d;
 
 }
