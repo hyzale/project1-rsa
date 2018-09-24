@@ -12,31 +12,49 @@ decrypt: decrypt.cpp numberTheory.o
 keygen: keygen.cpp numberTheory.o
 	g++ -g -o keygen keygen.cpp numberTheory.o
 
-reallyLongInt.o: reallyLongInt.hpp reallyLongInt.hpp
+# reallyLongInt.o: reallyLongInt.hpp reallyLongInt.hpp
 	g++ -c reallyLongInt.cpp
+
+ReallyLongInt.o: ReallyLongInt.hpp ReallyLongInt.hpp
+	g++ -c ReallyLongInt.cpp
 
 all: encrypt decrypt keygen reallyLongInt.o
 
-reallyLongInt_TEST: reallyLongInt_TEST.cpp reallyLongInt.o catch.hpp
-	g++ -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp
-	./reallyLongInt_TEST
+# reallyLongInt_TEST: reallyLongInt_TEST.cpp reallyLongInt.o catch.hpp
+# 	g++ -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp
+# 	./reallyLongInt_TEST
+
+ReallyLongInt_TEST: ReallyLongInt_TEST.cpp ReallyLongInt.o catch.hpp
+	g++ -o ReallyLongInt_TEST ReallyLongInt_TEST.cpp ReallyLongInt.cpp
+	./ReallyLongInt_TEST
 
 numberTheory_TEST: numberTheory_TEST.cpp numberTheory.o catch.hpp
 	g++ -o numberTheory_TEST numberTheory_TEST.cpp numberTheory.cpp
 	./numberTheory_TEST
 
-tests: numberTheory_TEST reallyLongInt_TEST
+tests: numberTheory_TEST ReallyLongInt_TEST
 
-testgcov_reallyLongInt: reallyLongInt_TEST
-	g++ --coverage -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp 
-	./reallyLongInt_TEST 
-	gcov reallyLongInt.cpp 
+# testgcov_reallyLongInt: reallyLongInt_TEST
+# 	g++ --coverage -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp 
+# 	./reallyLongInt_TEST 
+# 	gcov reallyLongInt.cpp 
 
-testlcov_reallyLongInt: testgcov_reallyLongInt
+# testlcov_reallyLongInt: testgcov_reallyLongInt
+# 	lcov --directory ./ --zerocounters
+# 	./reallyLongInt_TEST
+# 	lcov --directory ./ --capture --output-file reallyLongInt_TEST.info
+# 	genhtml --output-directory coverage reallyLongInt_TEST.info
+
+testgcov_ReallyLongInt: ReallyLongInt_TEST
+	g++ --coverage -o ReallyLongInt_TEST ReallyLongInt_TEST.cpp ReallyLongInt.cpp 
+	./ReallyLongInt_TEST 
+	gcov ReallyLongInt.cpp 
+
+testlcov_ReallyLongInt: testgcov_ReallyLongInt
 	lcov --directory ./ --zerocounters
-	./reallyLongInt_TEST
-	lcov --directory ./ --capture --output-file reallyLongInt_TEST.info
-	genhtml --output-directory coverage reallyLongInt_TEST.info
+	./ReallyLongInt_TEST
+	lcov --directory ./ --capture --output-file ReallyLongInt_TEST.info
+	genhtml --output-directory coverage ReallyLongInt_TEST.info
 
 
 testgcov_numberTheory: numberTheory_TEST
@@ -51,4 +69,4 @@ testlcov_numberTheory: testgcov_numberTheory
 	genhtml --output-directory coverage numberTheory_TEST.info
 
 clean:
-	rm -R *.o *.gcda *.info *.gcno *.gcov encrypt decrypt numberTheory_TEST keygen coverage a.out reallyLongInt_TEST
+	rm -R *.o *.gcda *.info *.gcno *.gcov encrypt decrypt numberTheory_TEST keygen coverage a.out reallyLongInt_TEST ReallyLongInt_TEST
