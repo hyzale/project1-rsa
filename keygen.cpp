@@ -34,12 +34,12 @@ int main (int argc, char *argv[]) {
     ull e = 2; ll x; ll y; ll d;
 
     for (int i = 2; i < t; i++) {
-        if (extendEuclid(e, t, &d, &y) == 1){
+        if (extendEuclid(i, t, &x, &y) == 1){
             e = i;
             break;
         }
     }
-    
+
     (x < 0) ? d = x + t : d = x;
     
     ofstream publicKey(argv[3]);
