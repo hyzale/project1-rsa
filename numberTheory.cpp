@@ -6,7 +6,6 @@ using namespace std;
 typedef unsigned long long ull; 
 typedef long long ll;
   
-ll x; ll y; 
 
  ull modPower(ull base, ull exponent, ull modulus) {
     if (exponent == 0) return 1;
