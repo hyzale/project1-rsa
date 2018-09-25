@@ -1,6 +1,6 @@
 
- #ifndef modpower_h
- #define modpower_h
+ #ifndef MODPOWER_H
+ #define MODPOWER_H
  
 typedef unsigned long long ull; 
 typedef long long ll;
