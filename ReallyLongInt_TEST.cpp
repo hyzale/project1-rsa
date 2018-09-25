@@ -98,5 +98,39 @@ TEST_CASE ("Test for ReallyLongInt class") {
         delete d;
 
     }  
+    
+    SECTION ("Testing absolute Add method") {
+        ReallyLongInt* a = new ReallyLongInt(1984);
+        ReallyLongInt* b = new ReallyLongInt("9333");
+        ReallyLongInt* c = new ReallyLongInt(-21);
+        ReallyLongInt* d = new ReallyLongInt(-1997);
+        ReallyLongInt* e = new ReallyLongInt(a->add(*b));
+        ReallyLongInt* f = new ReallyLongInt(c->add(*d));
+        REQUIRE (e->toString() == "11317" );
+        REQUIRE (f->toString() == "2018" );
+        delete a;
+        delete b;
+        delete c;
+        delete d;
+        delete e;
+        delete f;
+    }
+
+    SECTION ("Testing absolute sub method") {
+        ReallyLongInt* a = new ReallyLongInt(1984);
+        ReallyLongInt* b = new ReallyLongInt("11317");
+        ReallyLongInt* c = new ReallyLongInt(-21);
+        ReallyLongInt* d = new ReallyLongInt(-2018);
+        ReallyLongInt* e = new ReallyLongInt(a->sub(*b));
+        ReallyLongInt* f = new ReallyLongInt(c->sub(*d));
+        REQUIRE (e->toString() == "-9333" );
+        REQUIRE (f->toString() == "-1997" );
+        delete a;
+        delete b;
+        delete c;
+        delete d;
+        delete e;
+        delete f;
+    }
 
 }

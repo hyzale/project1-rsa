@@ -1,5 +1,7 @@
 default: all
 
+all: encrypt decrypt keygen reallyLongInt.o
+	
 numberTheory.o: numberTheory.hpp numberTheory.cpp
 	g++ -c numberTheory.cpp
 
@@ -13,12 +15,11 @@ keygen: keygen.cpp numberTheory.o
 	g++ -g -o keygen keygen.cpp numberTheory.o
 
 # reallyLongInt.o: reallyLongInt.hpp reallyLongInt.hpp
-	g++ -c reallyLongInt.cpp
+#	g++ -c reallyLongInt.cpp
 
-ReallyLongInt.o: ReallyLongInt.hpp ReallyLongInt.hpp
+ReallyLongInt.o: ReallyLongInt.hpp ReallyLongInt.cpp
 	g++ -c ReallyLongInt.cpp
 
-all: encrypt decrypt keygen reallyLongInt.o
 
 # reallyLongInt_TEST: reallyLongInt_TEST.cpp reallyLongInt.o catch.hpp
 # 	g++ -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp
@@ -32,7 +33,7 @@ numberTheory_TEST: numberTheory_TEST.cpp numberTheory.o catch.hpp
 	g++ -o numberTheory_TEST numberTheory_TEST.cpp numberTheory.cpp
 	./numberTheory_TEST
 
-tests: numberTheory_TEST ReallyLongInt_TEST
+tests: numberTheory_TEST ReallyLongInt_TEST # reallyLongInt_TEST
 
 # testgcov_reallyLongInt: reallyLongInt_TEST
 # 	g++ --coverage -o reallyLongInt_TEST reallyLongInt_TEST.cpp reallyLongInt.cpp 
@@ -69,4 +70,4 @@ testlcov_numberTheory: testgcov_numberTheory
 	genhtml --output-directory coverage numberTheory_TEST.info
 
 clean:
-	rm -R *.o *.gcda *.info *.gcno *.gcov encrypt decrypt numberTheory_TEST keygen coverage a.out reallyLongInt_TEST ReallyLongInt_TEST
+	rm -R *.o *.gcda *.info *.gcno *.gcov *.dSYM encrypt decrypt numberTheory_TEST keygen coverage a.out reallyLongInt_TEST ReallyLongInt_TEST

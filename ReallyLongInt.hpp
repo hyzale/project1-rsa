@@ -17,6 +17,11 @@ private:
 
     void removeLeadingZeros(unsigned* x, unsigned& xSize) const;
     ReallyLongInt(unsigned* digitsArr, unsigned arrSize, bool isNeg);
+    bool absGreater(const ReallyLongInt& other) const;
+    ReallyLongInt absAdd(const ReallyLongInt& other) const;
+    ReallyLongInt absSub(const ReallyLongInt& other) const;
+
+
 public:
     ReallyLongInt();
     ReallyLongInt(const string& numStr);
@@ -24,6 +29,10 @@ public:
     string toString() const;
     ReallyLongInt(long long num);
     ReallyLongInt(const ReallyLongInt& other);
+    bool equal(const ReallyLongInt& other) const;
+    bool greater(const ReallyLongInt& other) const;
+    ReallyLongInt add(const ReallyLongInt& other) const;
+    ReallyLongInt sub(const ReallyLongInt& other) const;
 
 
 /*--------Test Method--------*/
