@@ -222,34 +222,72 @@ ReallyLongInt ReallyLongInt::sub(const ReallyLongInt& other) const {
     return absSub(other);
 }
 
+//Overloading output stream
+ostream& operator<<(ostream& out, const ReallyLongInt& x) {  
+    out << x.toString();  
+    return out;  
+}     
+
+//Overloading assignment
+void ReallyLongInt::swap(ReallyLongInt other) {
+    std::swap(this->digits, other.digits);
+    std::swap(this->numDigits, other.numDigits);
+    std::swap(this->isNeg, other.isNeg);
+}
+
+ReallyLongInt& ReallyLongInt::operator=(const ReallyLongInt& other) {
+    this->swap(other);
+    return *this;
+}
+
+//Overloading comparison
+bool operator==(const ReallyLongInt& x, const ReallyLongInt& y){
+    return x.equal(y);
+}
+
+bool operator!=(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return !x.equal(y);
+}
+
+bool operator>(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return x.greater(y);
+}
+
+bool operator<(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return y.greater(x);
+}
+
+bool operator>=(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return x.greater(y) || x.equal(y);
+}
+bool operator<=(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return y.greater(x) || x.equal(y);
+}
+
+//Addition and Subtraction
+void ReallyLongInt::flipSign() {
+    isNeg = (isNeg == true) ? false : (digits[0] == 0) ? false : true;
+}
+
+ReallyLongInt ReallyLongInt::operator-() {
+    flipSign();
+    return *this;
+}
+
 /*--------------------------
 ----------Test Area---------
 ---------------------------*/
-//Overloading output stream
-//ref: https://msdn.microsoft.com/en-us/library/1z2f6c2k.aspx
-// ostream& operator<<(ostream& os, const ReallyLongInt& i) {  
-//     os << i.toString();  
-//     return os;  
-// }  
 
 
-// unsigned ReallyLongInt::getNumDigits() {
-//     return numDigits;
-// }
+int main(int argc, char const *argv[])
+{
+    ReallyLongInt x(10);
+    ReallyLongInt y;
+    y = x;
+    cout << -y << endl;
+    y = -58;
+    ReallyLongInt z("10");
+    y = string("123456789");
+    cout << y << endl;
 
-// bool ReallyLongInt::getIsNeg() {
-//     return isNeg;
-// }
-
-// int main(int argc, char const *argv[])
-// {
-//     ReallyLongInt* a = new ReallyLongInt(1231);
-//     ReallyLongInt* b = new ReallyLongInt("42");
-
-
-//     ReallyLongInt c = a->sub(*b);
-//     ReallyLongInt d = b->sub(*a);
-//     cout << c.toString() << endl;
-//     cout << d.toString() << endl;
-
-// }
+}
