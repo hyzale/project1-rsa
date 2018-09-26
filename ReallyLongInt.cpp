@@ -37,17 +37,6 @@ void ReallyLongInt::removeLeadingZeros(unsigned* x, unsigned& xSize) const {
         xSize -= count;
     }   
 
-/*change to iterative method after comment from checkpoint 2
-change to iterative method after comment from checkpoint 2
-    if (x[0] == 0 && xSize != 1) {
-        for (int i = 0; i < xSize - 1; i++) {
-            x[i] = x[i + 1];
-        }
-        xSize --;
-        removeLeadingZeros(x, xSize);
-
-    }    */
-
 }
 
 //String Construstor
@@ -162,9 +151,9 @@ bool ReallyLongInt::absGreater(const ReallyLongInt& other) const {
 }
 
 bool ReallyLongInt::greater(const ReallyLongInt& other) const {
-    return (isNeg == false && other.isNeg == false) ? absGreater(other) 
-        : (isNeg == true && other.isNeg == true) ? !absGreater(other) 
-        : (isNeg == false) ? true : false; 
+    return (!isNeg && !other.isNeg) ? absGreater(other) 
+        : (isNeg && other.isNeg) ? !absGreater(other) 
+        : (!isNeg && other.isNeg) ? true : false; 
 }
 
 
@@ -186,7 +175,15 @@ ReallyLongInt ReallyLongInt::absAdd(const ReallyLongInt& other) const {
 }
 
 ReallyLongInt ReallyLongInt::add(const ReallyLongInt& other) const {
-    return absAdd(other);
+    if (!this->isNeg && !other.isNeg) {
+        return absAdd(other);
+    } else if (this->isNeg && other.isNeg) {
+        return -absAdd(other);
+    } else if (this-> isNeg && this->absGreater(other)) {
+        return -absSub(other);
+    } else {
+        return absSub(other);
+    }
 }
 
 //Unsigned Subtraction
@@ -219,7 +216,15 @@ ReallyLongInt ReallyLongInt::absSub(const ReallyLongInt& other) const {
 }
 
 ReallyLongInt ReallyLongInt::sub(const ReallyLongInt& other) const {
-    return absSub(other);
+    if (!this->isNeg && !other.isNeg) {
+        return absSub(other);
+    } else if (this->isNeg && !other.isNeg) {
+        return -absAdd(other);
+    } else if (!this->isNeg && other.isNeg) {
+        return absAdd(other);
+    } else {
+        return -absSub(other);
+    }
 }
 
 //Overloading output stream
@@ -266,13 +271,81 @@ bool operator<=(const ReallyLongInt& x, const ReallyLongInt& y) {
 
 //Addition and Subtraction
 void ReallyLongInt::flipSign() {
-    isNeg = (isNeg == true) ? false : (digits[0] == 0) ? false : true;
+    isNeg = (digits[0]== 0) ? false : !isNeg;
 }
 
-ReallyLongInt ReallyLongInt::operator-() {
-    flipSign();
+ReallyLongInt ReallyLongInt::operator-() const {
+    ReallyLongInt* a = new ReallyLongInt(*this);
+    a->flipSign();
+    return *a;
+}
+
+ReallyLongInt operator+(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return x.add(y);
+}
+
+ReallyLongInt operator-(const ReallyLongInt& x, const ReallyLongInt& y) {
+    return x.sub(y);
+}
+
+ReallyLongInt& ReallyLongInt::operator+=(const ReallyLongInt& other) {
+    *this = *this + other;
+    return *this;
+
+}
+
+ReallyLongInt& ReallyLongInt::operator-=(const ReallyLongInt& other) {
+    *this = *this - other;    
     return *this;
 }
+
+ReallyLongInt& ReallyLongInt::operator++() {
+    *this += ReallyLongInt(1);
+    return *this;
+}
+
+ReallyLongInt& ReallyLongInt::operator--() {
+    *this -= ReallyLongInt(1);
+    return *this;
+}
+ReallyLongInt ReallyLongInt::operator++(int dummy) {
+    ReallyLongInt* a = new ReallyLongInt(*this);
+    *this += ReallyLongInt(1);
+    return *a;
+}
+
+ReallyLongInt ReallyLongInt::operator--(int dummy) {
+    ReallyLongInt* a = new ReallyLongInt(*this);
+    *this -= ReallyLongInt(1);
+    return *a;
+}
+
+ReallyLongInt ReallyLongInt::absMult(const ReallyLongInt& other) const {
+    unsigned maxLen = numDigits + other.numDigits;
+    unsigned* result = new unsigned[maxLen];
+
+    for (int i = 0; i < numDigits; i++) {
+        unsigned carry = 0;
+        for (int j = 0; j <= other.numDigits; j++) {
+            int temp = digits[i] * other.digits[j] + carry;
+            carry = temp / 10;
+            temp = (result[i + j] += temp % 10);
+            result[i + j] = temp % 10;
+            carry += temp / 10;
+
+        }
+    }
+    removeLeadingZeros(result, maxLen);
+    return ReallyLongInt(result, maxLen, false);
+}
+
+ReallyLongInt ReallyLongInt::Mult(const ReallyLongInt& other) const {
+    return (this->isNeg == other.isNeg) ? absMult(other) : -absMult(other);
+}
+
+
+
+
 
 /*--------------------------
 ----------Test Area---------
@@ -281,13 +354,7 @@ ReallyLongInt ReallyLongInt::operator-() {
 
 int main(int argc, char const *argv[])
 {
-    ReallyLongInt x(10);
-    ReallyLongInt y;
-    y = x;
-    cout << -y << endl;
-    y = -58;
-    ReallyLongInt z("10");
-    y = string("123456789");
-    cout << y << endl;
-
+    ReallyLongInt x(56);
+    ReallyLongInt y(34);
+    cout << x.Mult(y) << endl;
 }

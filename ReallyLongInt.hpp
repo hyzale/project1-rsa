@@ -20,6 +20,10 @@ private:
     bool absGreater(const ReallyLongInt& other) const;
     ReallyLongInt absAdd(const ReallyLongInt& other) const;
     ReallyLongInt absSub(const ReallyLongInt& other) const;
+    void swap(ReallyLongInt other);
+    void flipSign();
+    ReallyLongInt absMult(const ReallyLongInt& other) const;
+
 
 
 public:
@@ -33,11 +37,26 @@ public:
     bool greater(const ReallyLongInt& other) const;
     ReallyLongInt add(const ReallyLongInt& other) const;
     ReallyLongInt sub(const ReallyLongInt& other) const;
+    ReallyLongInt& operator=(const ReallyLongInt& other);
+    ReallyLongInt operator-() const;
+    ReallyLongInt& operator+=(const ReallyLongInt& other);
+    ReallyLongInt& operator-=(const ReallyLongInt& other);
+    ReallyLongInt& operator++();
+    ReallyLongInt& operator--();
+    ReallyLongInt operator++(int dummy);
+    ReallyLongInt operator--(int dummy);
+    ReallyLongInt Mult(const ReallyLongInt& other) const;
 
 
-/*--------Test Method--------*/
+/*Test Method*/
     unsigned getNumDigits();
+
     bool getIsNeg();
+
+
+
+
+
 };
 
 
