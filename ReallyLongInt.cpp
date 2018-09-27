@@ -343,7 +343,13 @@ ReallyLongInt ReallyLongInt::Mult(const ReallyLongInt& other) const {
     return (this->isNeg == other.isNeg) ? absMult(other) : -absMult(other);
 }
 
-
+ReallyLongInt operator*(const ReallyLongInt& x, const ReallyLongInt& y){
+    return x.Mult(y);
+}
+ReallyLongInt ReallyLongInt::operator*=(const ReallyLongInt& other) {
+    *this = *this * other;
+    return *this;
+}
 
 
 

@@ -74,14 +74,17 @@ TEST_CASE ("Test for ReallyLongInt class") {
     SECTION ("Testing equal method") {
         ReallyLongInt* a = new ReallyLongInt(1984);
         ReallyLongInt* b = new ReallyLongInt("1984");
-        ReallyLongInt* c = new ReallyLongInt(-2001);
+        ReallyLongInt* c = new ReallyLongInt(-200);
         ReallyLongInt* d = new ReallyLongInt(-2002);
+        ReallyLongInt* e = new ReallyLongInt(-2001);
         REQUIRE (a->equal(*b) == true );
         REQUIRE (c->equal(*d) == false );
+        REQUIRE (e->equal(*d) == false );
         delete a;
         delete b;
         delete c;
         delete d;
+        delete e;
 
     }
 
@@ -92,6 +95,9 @@ TEST_CASE ("Test for ReallyLongInt class") {
         ReallyLongInt* d = new ReallyLongInt(-2002);
         REQUIRE (a->greater(*b) == false );
         REQUIRE (c->greater(*d) == true );
+        REQUIRE (a->greater(*c) == true );
+        REQUIRE (d->greater(*b) == false );
+
         delete a;
         delete b;
         delete c;
@@ -107,7 +113,7 @@ TEST_CASE ("Test for ReallyLongInt class") {
         ReallyLongInt* e = new ReallyLongInt(a->add(*b));
         ReallyLongInt* f = new ReallyLongInt(c->add(*d));
         REQUIRE (e->toString() == "11317" );
-        REQUIRE (f->toString() == "2018" );
+        REQUIRE (f->toString() == "-2018" );
         delete a;
         delete b;
         delete c;
@@ -119,8 +125,8 @@ TEST_CASE ("Test for ReallyLongInt class") {
     SECTION ("Testing absolute sub method") {
         ReallyLongInt* a = new ReallyLongInt(1984);
         ReallyLongInt* b = new ReallyLongInt("11317");
-        ReallyLongInt* c = new ReallyLongInt(-21);
-        ReallyLongInt* d = new ReallyLongInt(-2018);
+        ReallyLongInt* c = new ReallyLongInt(21);
+        ReallyLongInt* d = new ReallyLongInt(2018);
         ReallyLongInt* e = new ReallyLongInt(a->sub(*b));
         ReallyLongInt* f = new ReallyLongInt(c->sub(*d));
         REQUIRE (e->toString() == "-9333" );
@@ -132,5 +138,67 @@ TEST_CASE ("Test for ReallyLongInt class") {
         delete e;
         delete f;
     }
+   
+    SECTION ("Testing add method") {
+        ReallyLongInt* a = new ReallyLongInt(-12999);
+        ReallyLongInt* b = new ReallyLongInt(3322);
+        ReallyLongInt* c = new ReallyLongInt(-2001);
+        ReallyLongInt* d = new ReallyLongInt(2001);
+        ReallyLongInt* e = new ReallyLongInt(*a);
+        *e += *b;
+        ReallyLongInt* f = new ReallyLongInt(c->add(*d));
+        REQUIRE (e->toString() == "-9677" );
+        REQUIRE (f->toString() == "0" );
+        delete a;
+        delete b;
+        delete c;
+        delete d;
+        delete e;
+        delete f;
+    }  
+    
+    SECTION ("Testing absolute sub method") {
+        ReallyLongInt* a = new ReallyLongInt(1984);
+        ReallyLongInt* b = new ReallyLongInt("-11317");
+        ReallyLongInt* c = new ReallyLongInt(-21);
+        ReallyLongInt* d = new ReallyLongInt(2018);
+        ReallyLongInt* e = new ReallyLongInt(*a);
+        *e -= *b;
+        ReallyLongInt* f = new ReallyLongInt(c->sub(*d));
+        REQUIRE (e->toString() == "13301" );
+        REQUIRE (f->toString() == "-2039" );
+        *f -= *c;
+        REQUIRE (f->toString() == "-2018" );
+
+        delete a;
+        delete b;
+        delete c;
+        delete d;
+        delete e;
+        delete f;
+    }   
+    SECTION ("Testing increment and decrement") {
+        ReallyLongInt* a = new ReallyLongInt(1984);
+        ReallyLongInt* b = new ReallyLongInt("11317");
+        ++*a;
+        --*b;
+        REQUIRE (a->toString() == "1985" );
+        REQUIRE (b->toString() == "11316" );
+        delete a;
+        delete b;
+
+    }
+    SECTION ("Testing dummy increment and decrement") {
+        ReallyLongInt a(1984);
+        ReallyLongInt b("11317");
+        ReallyLongInt c = a++;
+        ReallyLongInt d = b--;
+        REQUIRE (a.toString() == "1985" );
+        REQUIRE (b.toString() == "11316" );
+        REQUIRE (c.toString() == "1984" );
+        REQUIRE (d.toString() == "11317" );
+
+    }
+
 
 }
