@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include <iostream>
+#include <sstream>
 
 #include "ReallyLongInt.hpp"
 
@@ -80,6 +81,10 @@ TEST_CASE ("Test for ReallyLongInt class") {
         REQUIRE (a->equal(*b) == true );
         REQUIRE (c->equal(*d) == false );
         REQUIRE (e->equal(*d) == false );
+
+        REQUIRE ((*a) == (*b));
+        REQUIRE ((*a) != (*d));
+
         delete a;
         delete b;
         delete c;
@@ -97,13 +102,26 @@ TEST_CASE ("Test for ReallyLongInt class") {
         REQUIRE (c->greater(*d) == true );
         REQUIRE (a->greater(*c) == true );
         REQUIRE (d->greater(*b) == false );
+        REQUIRE ((*a) <= (*b));
+        REQUIRE ((*c) < (*b));
+        REQUIRE ((*d) < (*b));
+        REQUIRE ((*a) >= (*b));
+        REQUIRE ((*b) > (*c));
 
         delete a;
         delete b;
         delete c;
         delete d;
 
-    }  
+    }
+    SECTION ("Testing stream operator") {
+        ReallyLongInt* a = new ReallyLongInt("-000002001");
+        std::stringstream out;
+        out << *a;
+        REQUIRE (out.str() == "-2001" );
+        delete a;
+    }
+
     
     SECTION ("Testing absolute Add method") {
         ReallyLongInt* a = new ReallyLongInt(1984);
@@ -176,7 +194,8 @@ TEST_CASE ("Test for ReallyLongInt class") {
         delete d;
         delete e;
         delete f;
-    }   
+    }
+
     SECTION ("Testing increment and decrement") {
         ReallyLongInt* a = new ReallyLongInt(1984);
         ReallyLongInt* b = new ReallyLongInt("11317");
@@ -186,7 +205,6 @@ TEST_CASE ("Test for ReallyLongInt class") {
         REQUIRE (b->toString() == "11316" );
         delete a;
         delete b;
-
     }
     SECTION ("Testing dummy increment and decrement") {
         ReallyLongInt a(1984);
@@ -199,6 +217,25 @@ TEST_CASE ("Test for ReallyLongInt class") {
         REQUIRE (d.toString() == "11317" );
 
     }
+    
+    SECTION ("Testing multiplication") {
+        ReallyLongInt* a = new ReallyLongInt(19845);
+        ReallyLongInt* b = new ReallyLongInt("-11317");
+        ReallyLongInt* c = new ReallyLongInt(-21);
+        ReallyLongInt* d = new ReallyLongInt(0);
+        ReallyLongInt* e = new ReallyLongInt(*a);
+        *e *= *b;
+        ReallyLongInt* f = new ReallyLongInt(c->mult(*d));
+        REQUIRE (e->toString() == "-224585865" );
+        REQUIRE (f->toString() == "0" );
+        *c *= *e;
+        REQUIRE (c->toString() == "4716303165" );
 
-
+        delete a;
+        delete b;
+        delete c;
+        delete d;
+        delete e;
+        delete f;
+    }
 }

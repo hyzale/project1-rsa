@@ -45,7 +45,8 @@ public:
     ReallyLongInt& operator--();
     ReallyLongInt operator++(int dummy);
     ReallyLongInt operator--(int dummy);
-    ReallyLongInt Mult(const ReallyLongInt& other) const;
+    ReallyLongInt mult(const ReallyLongInt& other) const;
+    ReallyLongInt operator*=(const ReallyLongInt& other);
 
 
 /*Test Method*/
@@ -58,6 +59,14 @@ public:
 
 
 };
+
+bool operator==(const ReallyLongInt& x, const ReallyLongInt& y);
+ostream& operator<<(ostream& out, const ReallyLongInt& x);
+bool operator!=(const ReallyLongInt& x, const ReallyLongInt& y);
+bool operator>(const ReallyLongInt& x, const ReallyLongInt& y);
+bool operator<(const ReallyLongInt& x, const ReallyLongInt& y);
+bool operator>=(const ReallyLongInt& x, const ReallyLongInt& y);
+bool operator<=(const ReallyLongInt& x, const ReallyLongInt& y);
 
 
 #endif

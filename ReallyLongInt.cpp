@@ -320,36 +320,43 @@ ReallyLongInt ReallyLongInt::operator--(int dummy) {
     return *a;
 }
 
+//Multiplication
+
 ReallyLongInt ReallyLongInt::absMult(const ReallyLongInt& other) const {
     unsigned maxLen = numDigits + other.numDigits;
     unsigned* result = new unsigned[maxLen];
-
-    for (int i = 0; i < numDigits; i++) {
+    for (int i = 0; i < maxLen; i++) {
+        result[i] =  0;
+    }
+    for (int i = numDigits - 1; i >= 0; i--) {
         unsigned carry = 0;
-        for (int j = 0; j <= other.numDigits; j++) {
-            int temp = digits[i] * other.digits[j] + carry;
-            carry = temp / 10;
-            temp = (result[i + j] += temp % 10);
-            result[i + j] = temp % 10;
-            carry += temp / 10;
-
+        for (int j = other.numDigits - 1 ; j >= 0; j--) {
+            int sum = digits[i] * other.digits[j] + carry + result[i + j + 1];
+            carry = sum / 10;
+            result[i + j + 1] = sum % 10;
         }
+        result[i] = carry;
+
     }
     removeLeadingZeros(result, maxLen);
     return ReallyLongInt(result, maxLen, false);
 }
 
-ReallyLongInt ReallyLongInt::Mult(const ReallyLongInt& other) const {
+ReallyLongInt ReallyLongInt::mult(const ReallyLongInt& other) const {
     return (this->isNeg == other.isNeg) ? absMult(other) : -absMult(other);
 }
 
 ReallyLongInt operator*(const ReallyLongInt& x, const ReallyLongInt& y){
-    return x.Mult(y);
+    return x.mult(y);
 }
+
 ReallyLongInt ReallyLongInt::operator*=(const ReallyLongInt& other) {
     *this = *this * other;
     return *this;
 }
+
+
+
 
 
 
@@ -358,9 +365,9 @@ ReallyLongInt ReallyLongInt::operator*=(const ReallyLongInt& other) {
 ---------------------------*/
 
 
-int main(int argc, char const *argv[])
-{
-    ReallyLongInt x(56);
-    ReallyLongInt y(34);
-    cout << x.Mult(y) << endl;
-}
+// int main(int argc, char const *argv[])
+// {
+//     ReallyLongInt x(23);
+//     ReallyLongInt y(23);
+//     cout << (x == y) << endl;
+// }

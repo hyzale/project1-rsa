@@ -26,7 +26,7 @@ ReallyLongInt.o: ReallyLongInt.hpp ReallyLongInt.cpp
 # 	./reallyLongInt_TEST
 
 ReallyLongInt_TEST: ReallyLongInt_TEST.cpp ReallyLongInt.o catch.hpp
-	g++ -o ReallyLongInt_TEST ReallyLongInt_TEST.cpp ReallyLongInt.cpp
+	g++ -o ReallyLongInt_TEST  ReallyLongInt.cpp ReallyLongInt_TEST.cpp
 	./ReallyLongInt_TEST
 
 numberTheory_TEST: numberTheory_TEST.cpp numberTheory.o catch.hpp
