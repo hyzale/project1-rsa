@@ -17,12 +17,13 @@ private:
 
     void removeLeadingZeros(unsigned* x, unsigned& xSize) const;
     ReallyLongInt(unsigned* digitsArr, unsigned arrSize, bool isNeg);
-    bool absGreater(const ReallyLongInt& other) const;
     ReallyLongInt absAdd(const ReallyLongInt& other) const;
     ReallyLongInt absSub(const ReallyLongInt& other) const;
     void swap(ReallyLongInt other);
     void flipSign();
     ReallyLongInt absMult(const ReallyLongInt& other) const;
+    void absDiv(const ReallyLongInt& other, ReallyLongInt& quotient, ReallyLongInt& remainder) const;
+    bool absGreater(const ReallyLongInt& other) const;
 
 
 
@@ -47,26 +48,28 @@ public:
     ReallyLongInt operator--(int dummy);
     ReallyLongInt mult(const ReallyLongInt& other) const;
     ReallyLongInt operator*=(const ReallyLongInt& other);
-
+    void div(const ReallyLongInt& other, ReallyLongInt& quotient, ReallyLongInt& remainder) const;
+    ReallyLongInt operator/=(const ReallyLongInt& other);
+    ReallyLongInt operator%=(const ReallyLongInt& other);
+    long long toLongLong() const;
 
 /*Test Method*/
     unsigned getNumDigits();
-
     bool getIsNeg();
-
-
-
-
 
 };
 
-bool operator==(const ReallyLongInt& x, const ReallyLongInt& y);
 ostream& operator<<(ostream& out, const ReallyLongInt& x);
+ReallyLongInt operator+(const ReallyLongInt& x, const ReallyLongInt& y);
+ReallyLongInt operator-(const ReallyLongInt& x, const ReallyLongInt& y);
+bool operator==(const ReallyLongInt& x, const ReallyLongInt& y);
 bool operator!=(const ReallyLongInt& x, const ReallyLongInt& y);
 bool operator>(const ReallyLongInt& x, const ReallyLongInt& y);
 bool operator<(const ReallyLongInt& x, const ReallyLongInt& y);
 bool operator>=(const ReallyLongInt& x, const ReallyLongInt& y);
 bool operator<=(const ReallyLongInt& x, const ReallyLongInt& y);
-
+ReallyLongInt operator*(const ReallyLongInt& x, const ReallyLongInt& y);
+ReallyLongInt operator/(const ReallyLongInt& x, const ReallyLongInt& y);
+ReallyLongInt operator%(const ReallyLongInt& x, const ReallyLongInt& y);
 
 #endif

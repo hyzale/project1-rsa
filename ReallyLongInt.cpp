@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <climits>
 
 #include "ReallyLongInt.hpp"
 
@@ -15,7 +16,6 @@ ReallyLongInt::ReallyLongInt() {
     digits = numArr;
 }
 
-
 //Private method to remove leading zeroes
 void ReallyLongInt::removeLeadingZeros(unsigned* x, unsigned& xSize) const {
     int count = -1;
@@ -25,18 +25,15 @@ void ReallyLongInt::removeLeadingZeros(unsigned* x, unsigned& xSize) const {
             break;
         }
     }
-   
     if (count == -1) {
         xSize = 1;
         x[0] = 0;
-
     } else {
         for (int i = 0; i < xSize - count; i++) {
             x[i] = x[count + i];
         }
         xSize -= count;
     }   
-
 }
 
 //String Construstor
@@ -44,7 +41,6 @@ ReallyLongInt::ReallyLongInt(const string& numStr) {
     isNeg = (numStr[0] == '-');
     numDigits = numStr.size();
     unsigned* numArr = new unsigned[numDigits];
-    
     if (isNeg) {
         for (int i = 0; i < numDigits - 1; i++) {
             numArr[i] = numStr[i + 1] - 48;
@@ -75,7 +71,6 @@ string ReallyLongInt::toString() const {
     return numStr;
 }
 
-
 //Constructor from numbers
 ReallyLongInt::ReallyLongInt(long long num) {
     if (num == 0) {
@@ -86,11 +81,9 @@ ReallyLongInt::ReallyLongInt(long long num) {
         digits = numArr;
     } else {
         if (num > 0) {isNeg = false;}    
-        if (num < 0) {isNeg = true; num = -num;}
-        
+        if (num < 0) {isNeg = true; num = -num;}   
         numDigits = log10(num) + 1;
-        unsigned* numArr = new unsigned[numDigits];
-        
+        unsigned* numArr = new unsigned[numDigits];   
         for (int i = numDigits - 1; i >= 0; i--) {
             numArr[i] = num % 10;
             num /= 10;        
@@ -109,8 +102,6 @@ ReallyLongInt::ReallyLongInt(const ReallyLongInt& other) {
         deepCopy[i] = other.digits[i];
     }
     digits = deepCopy;
-    //memcpy()
-
 }
 
 //Private Constructor
@@ -138,16 +129,17 @@ bool ReallyLongInt::equal(const ReallyLongInt& other) const{
 bool ReallyLongInt::absGreater(const ReallyLongInt& other) const {
     if (numDigits > other.numDigits) {
         return true;
-    } 
-    if (numDigits < other.numDigits) {
+    } else if (numDigits < other.numDigits) {
+        return false;
+    } else {
+        for (int i = 0; i < numDigits; i++) {
+            if (digits[i] == other.digits[i]) {
+                continue;
+            }
+            return digits[i] > other.digits[i];
+        }
         return false;
     }
-    for (int i = 0; i < numDigits; i++) {
-        if (digits[i] > other.digits[i]) {
-            return true;
-        }
-    }
-    return false;   
 }
 
 bool ReallyLongInt::greater(const ReallyLongInt& other) const {
@@ -162,7 +154,6 @@ ReallyLongInt ReallyLongInt::absAdd(const ReallyLongInt& other) const {
     unsigned maxLen = absGreater(other) ? numDigits + 1 : other.numDigits + 1;
     unsigned* result = new unsigned[maxLen];
     unsigned carry = 0;
-
     for (int i = maxLen - 1; i >= 0; i--) {
         result[i] = (maxLen - i > numDigits) ? 0 : digits[numDigits + i - maxLen];
         result[i] += (maxLen - i > other.numDigits) ? 0 : other.digits[other.numDigits + i - maxLen];
@@ -188,31 +179,32 @@ ReallyLongInt ReallyLongInt::add(const ReallyLongInt& other) const {
 
 //Unsigned Subtraction
 ReallyLongInt ReallyLongInt::absSub(const ReallyLongInt& other) const {
-    unsigned maxLen = absGreater(other) ? numDigits : other.numDigits;
-    unsigned* result = new unsigned[maxLen];
-    unsigned borrow = 0;
-
-    if (absGreater(other)) {
-        for (int i = 1; i <= maxLen; i++) {
-            result[maxLen - i] = digits[numDigits - i] + 10;
-            result[maxLen - i] -= (i > other.numDigits) ? 0 : other.digits[other.numDigits - i];
-            result[maxLen - i] -= borrow;
-            borrow = (result[maxLen - i] < 10) ? 1 : 0;
-            result[maxLen - i] = result[maxLen - i] % 10;
-        }
-        removeLeadingZeros(result, maxLen);
-        return ReallyLongInt(result, maxLen, false);
-    } else {
-        for (int i = 1; i <= maxLen; i++) {
-            result[maxLen - i] = other.digits[other.numDigits - i] + 10;
-            result[maxLen - i] -= (i > numDigits) ? 0 : digits[numDigits - i];
-            result[maxLen - i] -= borrow;
-            borrow = (result[maxLen - i] < 10) ? 1 : 0;
-            result[maxLen - i] = result[maxLen - i] % 10;
-        }
-        removeLeadingZeros(result, maxLen);
-        return ReallyLongInt(result, maxLen, true);
-    }
+     unsigned maxLen = absGreater(other) ? numDigits : other.numDigits;
+     unsigned* result = new unsigned[maxLen];
+     unsigned borrow = 0;
+ 
+     if (absGreater(other)) {
+         for (int i = 1; i <= maxLen; i++) {
+             result[maxLen - i] = digits[numDigits - i] + 10;
+             result[maxLen - i] -= (i > other.numDigits) ? 0 : other.digits[other.numDigits - i];
+             result[maxLen - i] -= borrow;
+             borrow = (result[maxLen - i] < 10) ? 1 : 0;
+             result[maxLen - i] = result[maxLen - i] % 10;
+         }
+         removeLeadingZeros(result, maxLen);
+         return ReallyLongInt(result, maxLen, false);
+     } else {
+         for (int i = 1; i <= maxLen; i++) {
+             result[maxLen - i] = other.digits[other.numDigits - i] + 10;
+             result[maxLen - i] -= (i > numDigits) ? 0 : digits[numDigits - i];
+             result[maxLen - i] -= borrow;
+             borrow = (result[maxLen - i] < 10) ? 1 : 0;
+             result[maxLen - i] = result[maxLen - i] % 10;
+         }
+         removeLeadingZeros(result, maxLen);
+         return ReallyLongInt(result, maxLen, true);
+     }
+   
 }
 
 ReallyLongInt ReallyLongInt::sub(const ReallyLongInt& other) const {
@@ -291,7 +283,6 @@ ReallyLongInt operator-(const ReallyLongInt& x, const ReallyLongInt& y) {
 ReallyLongInt& ReallyLongInt::operator+=(const ReallyLongInt& other) {
     *this = *this + other;
     return *this;
-
 }
 
 ReallyLongInt& ReallyLongInt::operator-=(const ReallyLongInt& other) {
@@ -321,7 +312,6 @@ ReallyLongInt ReallyLongInt::operator--(int dummy) {
 }
 
 //Multiplication
-
 ReallyLongInt ReallyLongInt::absMult(const ReallyLongInt& other) const {
     unsigned maxLen = numDigits + other.numDigits;
     unsigned* result = new unsigned[maxLen];
@@ -336,7 +326,6 @@ ReallyLongInt ReallyLongInt::absMult(const ReallyLongInt& other) const {
             result[i + j + 1] = sum % 10;
         }
         result[i] = carry;
-
     }
     removeLeadingZeros(result, maxLen);
     return ReallyLongInt(result, maxLen, false);
@@ -355,19 +344,77 @@ ReallyLongInt ReallyLongInt::operator*=(const ReallyLongInt& other) {
     return *this;
 }
 
+//Division
+
+void ReallyLongInt::absDiv(const ReallyLongInt& other, ReallyLongInt& quotient, ReallyLongInt& remainder) const {
+    ReallyLongInt absOther = (other.isNeg) ? -other : other;
+    unsigned maxLen = numDigits;
+    unsigned* result = new unsigned[maxLen];
+    remainder = ReallyLongInt(0);
+    for (int i = 0; i < numDigits; i++) {
+        remainder *= ReallyLongInt(10);
+        remainder += ReallyLongInt(digits[i]);
+        unsigned d = 0; 
+        while (remainder >= absOther) {
+            remainder -= absOther;
+            d++;
+        }
+        result[i] = d;
+    }
+    removeLeadingZeros(result, maxLen);
+    quotient = ReallyLongInt (result, maxLen, false);
+}
+
+void ReallyLongInt::div(const ReallyLongInt& other, ReallyLongInt& quotient, ReallyLongInt& remainder) const {
+    if (other.digits[0] == 0) {
+        cout << "The denominator should not be 0." << endl;
+    } else if (!this -> absGreater(other)) {
+        quotient = ReallyLongInt(0);
+        remainder = *this;
+    } else if (*this == other) {
+        quotient = ReallyLongInt(1);
+        remainder = ReallyLongInt(0);
+    } else {
+        absDiv(other, quotient, remainder);
+        quotient = (this->isNeg == other.isNeg) ? quotient : -quotient;
+        //Note: this remainder is not the mathematical remainder.
+        remainder = (this->isNeg) ? -remainder : remainder; 
+    }
+}
+
+ReallyLongInt operator/(const ReallyLongInt& x, const ReallyLongInt& y){
+    ReallyLongInt q, r;
+    x.div(y, q, r);
+    return q;
+}
+
+ReallyLongInt operator%(const ReallyLongInt& x, const ReallyLongInt& y){
+    ReallyLongInt q, r;
+    x.div(y, q, r);
+    return r;
+}
+
+ReallyLongInt ReallyLongInt::operator/=(const ReallyLongInt& other) {
+    *this = *this / other;
+    return *this;
+}
+
+ReallyLongInt ReallyLongInt::operator%=(const ReallyLongInt& other) {
+    *this = *this % other;
+    return *this;
+}
+
+//Convert to number
+long long ReallyLongInt::toLongLong() const {
+    ReallyLongInt max(LLONG_MAX);
+    max++;
+    ReallyLongInt ll = *this % max;
+    long long result = 0;
+    for (int i = 0; i < ll.numDigits; i++) {
+        result *= 10;
+        result += ll.digits[i];
+    }
+    return ll.isNeg ? -result : result;
+}
 
 
-
-
-
-/*--------------------------
-----------Test Area---------
----------------------------*/
-
-
-// int main(int argc, char const *argv[])
-// {
-//     ReallyLongInt x(23);
-//     ReallyLongInt y(23);
-//     cout << (x == y) << endl;
-// }
