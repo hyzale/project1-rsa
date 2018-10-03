@@ -1,5 +1,4 @@
-# Alexa Huang
-# CPS222 project1—rsa
+# CPS222 project1—rsa  
 
 ##  ----File Submitted----
 catch.hpp  
