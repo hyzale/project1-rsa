@@ -1,7 +1,7 @@
 # Alexa Huang
 # CPS222 project1—rsa
 
-##----File Submitted----
+##  ----File Submitted----
 catch.hpp
 decrypt.cpp
 encrypt.cpp
@@ -16,14 +16,14 @@ Makefile
 README.md
 Project1_CoverSheet.pdf
 
-##----Introduction----
+##  ----Introduction----
 This project with 
 
 
 
 
-##----Instruction----
+##  ----Instruction----
 
 
 
-##----Known Issue----
+##  ----Known Issue----
