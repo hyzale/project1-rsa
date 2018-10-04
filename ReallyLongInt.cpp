@@ -170,7 +170,7 @@ ReallyLongInt ReallyLongInt::add(const ReallyLongInt& other) const {
         return absAdd(other);
     } else if (this->isNeg && other.isNeg) {
         return -absAdd(other);
-    } else if (this-> isNeg && this->absGreater(other)) {
+    } else if (this-> isNeg && !other.isNeg) {
         return -absSub(other);
     } else {
         return absSub(other);
@@ -181,29 +181,20 @@ ReallyLongInt ReallyLongInt::add(const ReallyLongInt& other) const {
 ReallyLongInt ReallyLongInt::absSub(const ReallyLongInt& other) const {
      unsigned maxLen = absGreater(other) ? numDigits : other.numDigits;
      unsigned* result = new unsigned[maxLen];
+     ReallyLongInt* larger = absGreater(other) ? new ReallyLongInt(*this) : new ReallyLongInt(other);
+     ReallyLongInt* smaller = absGreater(other) ? new ReallyLongInt(other) : new ReallyLongInt(*this);
      unsigned borrow = 0;
- 
-     if (absGreater(other)) {
-         for (int i = 1; i <= maxLen; i++) {
-             result[maxLen - i] = digits[numDigits - i] + 10;
-             result[maxLen - i] -= (i > other.numDigits) ? 0 : other.digits[other.numDigits - i];
-             result[maxLen - i] -= borrow;
-             borrow = (result[maxLen - i] < 10) ? 1 : 0;
-             result[maxLen - i] = result[maxLen - i] % 10;
-         }
-         removeLeadingZeros(result, maxLen);
-         return ReallyLongInt(result, maxLen, false);
-     } else {
-         for (int i = 1; i <= maxLen; i++) {
-             result[maxLen - i] = other.digits[other.numDigits - i] + 10;
-             result[maxLen - i] -= (i > numDigits) ? 0 : digits[numDigits - i];
-             result[maxLen - i] -= borrow;
-             borrow = (result[maxLen - i] < 10) ? 1 : 0;
-             result[maxLen - i] = result[maxLen - i] % 10;
-         }
-         removeLeadingZeros(result, maxLen);
-         return ReallyLongInt(result, maxLen, true);
+
+     for (int i = 1; i <= maxLen; i++) {
+         result[maxLen - i] = larger->digits[larger->numDigits - i] + 10;
+         result[maxLen - i] -= (i > smaller->numDigits) ? 0 : smaller->digits[smaller->numDigits - i];
+         result[maxLen - i] -= borrow;
+         borrow = (result[maxLen - i] < 10) ? 1 : 0;
+         result[maxLen - i] = result[maxLen - i] % 10;
      }
+     delete larger; delete smaller;
+     removeLeadingZeros(result, maxLen);
+     return absGreater(other) ? ReallyLongInt(result, maxLen, false) : ReallyLongInt(result, maxLen, true);
    
 }
 
