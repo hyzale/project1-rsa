@@ -1,16 +1,16 @@
 
- #ifndef MODPOWER_H
- #define MODPOWER_H
- 
-typedef unsigned long long ull; 
-typedef long long ll;
+ #ifndef NUMBERTHEORY_H
+ #define NUMBERTHEORY_H
 
+template <class X>
+X modPower(const X& base, const X& exponent, const X& modulus);
 
-ull modPower(ull base, ull exponent, ull modulus);
+template <class X>
+bool isPrime(const X& num);
 
-bool isPrime(ull num);
+template <class X>
+X extendEuclid(const X& a, const X& b, X* x, X* y);
 
-ull extendEuclid(ull a, ull b, ll* px, ll* py);
-
+#include "numberTheory.tpp"
 
 #endif
