@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "numberTheory.hpp"
+#include "ReallyLongInt.hpp"
 
 using namespace std;
 typedef unsigned long long ull; 
@@ -13,14 +14,16 @@ typedef unsigned long long ull;
     }
     
     ifstream encryptFile(argv[1]);
-    ull e; ull n; //bad variable name copy from spec, e is exponent, n is mod
-    encryptFile >> e >> n;
+    string exponent; string mod; 
+    encryptFile >> exponent >> mod;
+    ReallyLongInt e(exponent); ReallyLongInt n(mod);
     
     ifstream fin(argv[2]);
     ofstream fout(argv[3]);
     char x; //x is the character to be encrypted
     
     while(fin.get(x)){
-        fout << modPower(x, e, n) << endl;
+        ReallyLongInt num(x);
+        fout << modPower(num, e, n) << endl;
     } 
  }

@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include "numberTheory.hpp"
+#include "ReallyLongInt.hpp"
+
 using namespace std;
-typedef unsigned long long ull; 
  
 
  int main(int argc, char *argv[]) {
@@ -14,16 +15,23 @@ typedef unsigned long long ull;
     }    
     
     ifstream decryptFile(argv[1]);
-    ull d; ull n;
-    decryptFile >> d >> n;
+    string exponent; string mod; 
+    decryptFile >> exponent >> mod;
+    ReallyLongInt d(exponent); ReallyLongInt n(mod);
     
     ifstream fin(argv[2]);
     ofstream fout(argv[3]);
-    int y;
+    ReallyLongInt y;
+    string a;
     
-    fin >> y;
+    fin >> a;
+    y = ReallyLongInt(a);
+
     while(!fin.eof()){
-        fout << (char) modPower(y, d, n);
-        fin >> y;
+        ReallyLongInt result = modPower(y, d, n);
+        long long res = result.toLongLong();
+        fout << (char) res;
+        fin >> a;
+        y = ReallyLongInt(a);
     }
  }
