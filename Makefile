@@ -14,7 +14,6 @@ decrypt: decrypt.cpp ReallyLongInt.o
 keygen: keygen.cpp ReallyLongInt.o
 	g++ -g -o keygen keygen.cpp ReallyLongInt.cpp
 
-
 ReallyLongInt_TEST: ReallyLongInt_TEST.cpp ReallyLongInt.o catch.hpp
 	g++ -o ReallyLongInt_TEST ReallyLongInt.cpp ReallyLongInt_TEST.cpp
 	./ReallyLongInt_TEST
@@ -59,3 +58,6 @@ testlcov: tesetgcov
 
 clean:
 	rm -R *.o *.gcda *.info *.gcno *.gcov *.dSYM encrypt decrypt numberTheory_TEST keygen coverage a.out reallyLongInt_TEST ReallyLongInt_TEST
+
+
+
