@@ -367,13 +367,14 @@ void ReallyLongInt::absDiv(const ReallyLongInt& other, ReallyLongInt& quotient, 
 
 void ReallyLongInt::div(const ReallyLongInt& other, ReallyLongInt& quotient, ReallyLongInt& remainder) const {
     if (other.digits[0] == 0) {
+        //Note: the direction of handling denominator as 0 not stated in spec.
         cout << "The denominator should not be 0." << endl;
+    } else if (*this == other) {
+        quotient = ReallyLongInt(1);
+        remainder = ReallyLongInt(0);    
     } else if (!this -> absGreater(other)) {
         quotient = ReallyLongInt(0);
         remainder = *this;
-    } else if (*this == other) {
-        quotient = ReallyLongInt(1);
-        remainder = ReallyLongInt(0);
     } else {
         absDiv(other, quotient, remainder);
         quotient = (this->isNeg == other.isNeg) ? quotient : -quotient;

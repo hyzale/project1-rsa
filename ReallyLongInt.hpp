@@ -4,9 +4,7 @@
 #include <cstring>
 #include <string.h>
 
-
 using namespace std;
-
 
 class ReallyLongInt 
 {
@@ -52,7 +50,7 @@ public:
     ReallyLongInt operator/=(const ReallyLongInt& other);
     ReallyLongInt operator%=(const ReallyLongInt& other);
     long long toLongLong() const;
-
+    
 /*Test Method*/
     unsigned getNumDigits();
     bool getIsNeg();

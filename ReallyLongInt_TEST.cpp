@@ -175,18 +175,21 @@ TEST_CASE ("Test for ReallyLongInt class") {
         delete f;
     }  
     
-    SECTION ("Testing absolute sub method") {
+    SECTION ("Testing sub method") {
         ReallyLongInt* a = new ReallyLongInt(1984);
-        ReallyLongInt* b = new ReallyLongInt("-11317");
+        ReallyLongInt* b = new ReallyLongInt("11317");
         ReallyLongInt* c = new ReallyLongInt(-21);
         ReallyLongInt* d = new ReallyLongInt(2018);
         ReallyLongInt* e = new ReallyLongInt(*a);
         *e -= *b;
         ReallyLongInt* f = new ReallyLongInt(c->sub(*d));
-        REQUIRE (e->toString() == "13301" );
+
+        REQUIRE (e->toString() == "-9333" );
         REQUIRE (f->toString() == "-2039" );
         *f -= *c;
         REQUIRE (f->toString() == "-2018" );
+        ReallyLongInt* g = new ReallyLongInt(*a - *c);
+        REQUIRE (g->toString() == "2005" );
 
         delete a;
         delete b;
@@ -194,6 +197,7 @@ TEST_CASE ("Test for ReallyLongInt class") {
         delete d;
         delete e;
         delete f;
+        delete g;
     }
 
     SECTION ("Testing increment and decrement") {
@@ -223,8 +227,7 @@ TEST_CASE ("Test for ReallyLongInt class") {
         ReallyLongInt* b = new ReallyLongInt("-11317");
         ReallyLongInt* c = new ReallyLongInt(-21);
         ReallyLongInt* d = new ReallyLongInt(0);
-        ReallyLongInt* e = new ReallyLongInt(*a);
-        *e *= *b;
+        ReallyLongInt* e = new ReallyLongInt(*a * *b);
         ReallyLongInt* f = new ReallyLongInt(c->mult(*d));
         REQUIRE (e->toString() == "-224585865" );
         REQUIRE (f->toString() == "0" );
@@ -238,4 +241,40 @@ TEST_CASE ("Test for ReallyLongInt class") {
         delete e;
         delete f;
     }
+
+    SECTION ("Testing division") {
+        ReallyLongInt* a = new ReallyLongInt(19223845);
+        ReallyLongInt* b = new ReallyLongInt("-11317");
+        ReallyLongInt* c = new ReallyLongInt(-22);
+        ReallyLongInt* d = new ReallyLongInt(*a / *b);
+        ReallyLongInt* e = new ReallyLongInt(*a % *b);
+        ReallyLongInt* f = new ReallyLongInt(-22);
+        ReallyLongInt* g = new ReallyLongInt(*c / *f);
+        REQUIRE (d->toString() == "-1698" );
+        REQUIRE (e->toString() == "7579" );
+        *e /= *c;
+        *d %= *c;
+        REQUIRE (e->toString() == "-344" );
+        REQUIRE (d->toString() == "-4" );
+        REQUIRE (g->toString() == "1" );
+
+
+        delete a;
+        delete b;
+        delete c;
+        delete d;
+        delete e;
+        delete f;
+        delete g;
+    }
+
+    SECTION ("Testing converting back to number") {
+        ReallyLongInt* a = new ReallyLongInt(19223845);
+        ReallyLongInt* b = new ReallyLongInt("-11317111111111111111111");
+        REQUIRE (a->toLongLong() == 19223845);
+        REQUIRE (b->toLongLong() == -33621890301194695);
+    }
+
+
+
 }
