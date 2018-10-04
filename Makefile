@@ -1,15 +1,15 @@
 default: all
 
-all: encrypt decrypt keygen ReallyLongInt.o
+all: encrypt decrypt keygen 
 
 ReallyLongInt.o: ReallyLongInt.hpp ReallyLongInt.cpp
 	g++ -c ReallyLongInt.cpp	
 
-encrypt: encrypt.cpp 
-	g++ -o encrypt encrypt.cpp 
+encrypt: encrypt.cpp ReallyLongInt.o
+	g++ -o encrypt encrypt.cpp ReallyLongInt.cpp
 
-decrypt: decrypt.cpp 
-	g++ -o decrypt decrypt.cpp 
+decrypt: decrypt.cpp ReallyLongInt.o
+	g++ -o decrypt decrypt.cpp ReallyLongInt.cpp
 
 keygen: keygen.cpp ReallyLongInt.o
 	g++ -g -o keygen keygen.cpp ReallyLongInt.cpp

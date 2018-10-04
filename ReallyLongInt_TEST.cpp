@@ -165,14 +165,23 @@ TEST_CASE ("Test for ReallyLongInt class") {
         ReallyLongInt* e = new ReallyLongInt(*a);
         *e += *b;
         ReallyLongInt* f = new ReallyLongInt(c->add(*d));
+        ReallyLongInt* g = new ReallyLongInt(b->add(*c));
+        ReallyLongInt* h = new ReallyLongInt(c->add(*b));
+        ReallyLongInt* i = new ReallyLongInt(b->add(*a));
         REQUIRE (e->toString() == "-9677" );
         REQUIRE (f->toString() == "0" );
+        REQUIRE (g->toString() == "1321" );
+        REQUIRE (h->toString() == "1321" );
+        REQUIRE (i->toString() == "-9677" );
         delete a;
         delete b;
         delete c;
         delete d;
         delete e;
         delete f;
+        delete g;
+        delete h;
+        delete i;
     }  
     
     SECTION ("Testing sub method") {
@@ -257,8 +266,6 @@ TEST_CASE ("Test for ReallyLongInt class") {
         REQUIRE (e->toString() == "-344" );
         REQUIRE (d->toString() == "-4" );
         REQUIRE (g->toString() == "1" );
-
-
         delete a;
         delete b;
         delete c;
@@ -273,6 +280,8 @@ TEST_CASE ("Test for ReallyLongInt class") {
         ReallyLongInt* b = new ReallyLongInt("-11317111111111111111111");
         REQUIRE (a->toLongLong() == 19223845);
         REQUIRE (b->toLongLong() == -33621890301194695);
+        delete a;
+        delete b;
     }
 
 
