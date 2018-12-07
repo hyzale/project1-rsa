@@ -58,7 +58,7 @@ ReallyLongInt::ReallyLongInt(const string& numStr) {
 
 //Destructor
 ReallyLongInt::~ReallyLongInt() {
-    delete digits;
+    delete[] digits;
 }
 
 //toString method
@@ -144,7 +144,7 @@ bool ReallyLongInt::absGreater(const ReallyLongInt& other) const {
 
 bool ReallyLongInt::greater(const ReallyLongInt& other) const {
     return (!isNeg && !other.isNeg) ? absGreater(other) 
-        : (isNeg && other.isNeg) ? !absGreater(other) 
+        : (isNeg && other.isNeg) ? (equal(other)) ? false : !absGreater(other) 
         : (!isNeg && other.isNeg) ? true : false; 
 }
 
